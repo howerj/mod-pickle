@@ -1,0 +1,8 @@
+*.a
+*.dll
+*.o
+*.so
+*~
+bld
+bld/*
+psh

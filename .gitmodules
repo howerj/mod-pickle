@@ -1,0 +1,9 @@
+[submodule "mod/pickle"]
+	path = mod/pickle
+	url = https://github.com/howerj/pickle
+[submodule "mod/httpc"]
+	path = mod/httpc
+	url = https://github.com/howerj/httpc
+[submodule "mod/cdb"]
+	path = mod/cdb
+	url = https://github.com/howerj/cdb

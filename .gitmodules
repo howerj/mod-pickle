@@ -7,3 +7,6 @@
 [submodule "mod/cdb"]
 	path = mod/cdb
 	url = https://github.com/howerj/cdb
+[submodule "mod/shrink"]
+	path = mod/shrink
+	url = https://github.com/howerj/shrink

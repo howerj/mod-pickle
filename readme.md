@@ -1,5 +1,8 @@
 # Module System For Pickle Interpreter
 
+**This project is a work in progress**. It is in pre-alpha at the moment so
+should not be counted on to actually do anything useful.
+
 This is a module system for the Pickle Interpreter, which is an interpreter for
 a TCL like language derived from an interpreter made by Antirez called 'picol'.
 The interpreter itself is licensed under the BSD license, everything in this
@@ -7,16 +10,14 @@ repository (unless noted elsewhere) is licensed under the Unlicense.
 
 The interpreter is available at: <https://github.com/howerj/pickle>.
 
-## Building and Project Layout
-
-
 ## To Do
 
-* Manual pages and documentation
-* Make a small test driver application
-* Make sure all sub-module tests are run.
+* Manual pages and documentation.
 * Make a build system using Make that would use git to pull down and update
 sub-modules automatically.
+* Add targets to make and install the shell and modules, these are the 'dist'
+  and 'install' makefile targets.
+* Write wrappers for all of the modules that are pulled in.
 
 Add modules for:
 

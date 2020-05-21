@@ -1,18 +1,12 @@
 #include "psh.h"
+#include "mod.h"
 #include "pickle.h"
-#include "httpc.h"
-#include "shrink.h"
-#include "cdb.h"
 #include <assert.h>
 #include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-
-#define UNUSED(X) ((void)(X))
-#define ok(i, ...)    pickle_result_set(i, PICKLE_OK,    __VA_ARGS__)
-#define error(i, ...) pickle_result_set(i, PICKLE_ERROR, __VA_ARGS__)
 
 typedef struct {
 	char *arg;   /* parsed argument */
@@ -86,14 +80,6 @@ static int pickle_getopt(pickle_getopt_t *opt, const int argc, char *const argv[
 	return opt->option; /* dump back option letter */
 }
 
-/* NB. This allocator can be use to get memory statistics (printed atexit) or test allocation failures */
-static void *allocator(void *arena, void *ptr, const size_t oldsz, const size_t newsz) {
-	UNUSED(arena);
-	if (newsz == 0) { free(ptr); return NULL; }
-	if (newsz > oldsz) return realloc(ptr, newsz);
-	return ptr;
-}
-
 static int release(pickle_t *i, void *ptr) {
 	void *arena = NULL;
 	allocator_fn fn = NULL;
@@ -108,7 +94,7 @@ static void *reallocator(pickle_t *i, void *ptr, size_t sz) {
 	allocator_fn fn = NULL;
 	if (pickle_allocator_get(i, &fn, &arena) != PICKLE_OK)
 		abort();
-	void *r = allocator(arena, ptr, 0, sz);
+	void *r = fn(arena, ptr, 0, sz);
 	if (!r) {
 		release(i, ptr);
 		return NULL;
@@ -295,8 +281,8 @@ int psh(int argc, char **argv) {
 	(void)argv;
 	pickle_t *i = NULL;
 
-	if (pickle_tests(allocator, NULL)   != PICKLE_OK) goto fail;
-	if (pickle_new(&i, allocator, NULL) != PICKLE_OK) goto fail;
+	if (pickle_tests(pickle_mod_allocator, NULL)   != PICKLE_OK) goto fail;
+	if (pickle_new(&i, pickle_mod_allocator, NULL) != PICKLE_OK) goto fail;
 	if (pickle_var_set_args(i, "argv", argc, argv)  != PICKLE_OK) goto fail;
 
 	typedef struct {

@@ -3,7 +3,7 @@ BUILD=bld
 MOD=mod
 BASE=src
 SUB=pickle httpc cdb shrink
-CFLAGS=-Wall -Wextra -std=c99 -O2 -fwrapv -I${BUILD}/include -L${BUILD}/lib -I ${BASE} -L ${BASE} 
+CFLAGS=-Wall -Wextra -std=c99 -O2 -fwrapv -I${MOD} -I${BUILD}/include -L${BUILD}/lib -I ${BASE} -L ${BASE} 
 AR=ar
 ARFLAGS=rcs
 
@@ -39,8 +39,8 @@ run: ${TARGET}
 
 -include ${BASE}/makefile
 
-${TARGET}: modules ${BASE}/psh.o main.o 
-	${CC} ${CFLAGS} main.o ${BASE}/psh.o -lpickle -o $@
+${TARGET}: modules ${MOD}/mod.o ${BASE}/psh.o main.o 
+	${CC} ${CFLAGS} main.o ${MOD}/mod.o ${BASE}/psh.o -lpickle -o $@
 	-strip ${TARGET}
 
 clean: .git

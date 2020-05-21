@@ -23,7 +23,11 @@ Add modules for:
 
 * HTTP <https://github.com/howerj/httpc>
 * CDB <https://github.com/howerj/cdb>
+* UTF-8 <https://github.com/howerj/utf8>
 * Shrink <https://github.com/howerj/shrink>
 * Base64, JSON, Operating System Stuff...
 * Linenoise for CLI command completion <https://github.com/arangodb/linenoise-ng>
+* Add a library for manipulating ANSI terminal escape sequences, this could be
+done in TCL, which may make the linenoise library redundant if a few C
+functions were added (such as 'isatty' and 'getch').
 

@@ -60,8 +60,6 @@ pickle_mod_t *pickle_mod_new(pickle_t *i, pickle_mod_register_t rm) {
 	pickle_mod_t *m = calloc(1, sizeof *m);
 	if (!m)
 		return NULL;
-
-
 	return m;
 }
 

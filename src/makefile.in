@@ -1,0 +1,6 @@
+SRCS=$(wildcard ${BASE}/*.c)
+OBJS=${SRCS:.c=.o}
+
+${BASE}/libmod.a: ${OBJS}
+	${AR} ${ARFLAGS} $@ $^
+

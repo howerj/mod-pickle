@@ -1,4 +1,4 @@
-TARGET=psh
+TARGET=pickle
 BUILD=bld
 MOD=mod
 BASE=src
@@ -37,10 +37,10 @@ modules: ${MOD}/pickle/.git
 run: ${TARGET}
 	./${TARGET} ${MOD}/pickle/shell
 
--include ${BASE}/makefile
+-include ${BASE}/makefile.in
 
-${TARGET}: modules ${MOD}/mod.o ${BASE}/psh.o main.o 
-	${CC} ${CFLAGS} main.o ${MOD}/mod.o ${BASE}/psh.o -lpickle -o $@
+${TARGET}: modules ${BASE}/libmod.a main.o 
+	${CC} ${CFLAGS} main.o -lpickle -lmod -lcdb -o $@
 	-strip ${TARGET}
 
 clean: .git

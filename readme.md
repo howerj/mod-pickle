@@ -18,6 +18,9 @@ sub-modules automatically.
 * Add targets to make and install the shell and modules, these are the 'dist'
   and 'install' makefile targets.
 * Write wrappers for all of the modules that are pulled in.
+* Figure a way to reuse the code in the original 'main.c' file, perhaps by
+  setting some macros that would allow code to be run before and after the
+  interpreter is run.
 
 Add modules for:
 

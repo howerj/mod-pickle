@@ -10,3 +10,6 @@
 [submodule "mod/shrink"]
 	path = mod/shrink
 	url = https://github.com/howerj/shrink
+[submodule "mod/utf8"]
+	path = mod/utf8
+	url = https://github.com/howerj/utf8

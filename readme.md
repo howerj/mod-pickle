@@ -29,6 +29,8 @@ Add modules for:
 * UTF-8 <https://github.com/howerj/utf8>
 * Shrink <https://github.com/howerj/shrink>
 * Base64, JSON, Operating System Stuff...
+* A module-module for manipulating the modules, load, unloading them,
+and perhaps even dynamically loading at run time.
 * Linenoise for CLI command completion <https://github.com/arangodb/linenoise-ng>
 * Add a library for manipulating ANSI terminal escape sequences, this could be
 done in TCL, which may make the linenoise library redundant if a few C

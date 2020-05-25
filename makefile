@@ -3,32 +3,33 @@ BUILD=bld
 MOD=mod
 BASE=src
 SUB=pickle httpc cdb shrink utf8
-CFLAGS=-Wall -Wextra -std=c99 -O2 -fwrapv -I${MOD} -I${BUILD}/include -L${BUILD}/lib -I ${BASE} -L ${BASE} 
+CFLAGS=-Wall -Wextra -std=c99 -g -O2 -fwrapv -I${MOD} -I${BUILD}/include -L${BUILD}/lib -I ${BASE} -L ${BASE} 
 AR=ar
 ARFLAGS=rcs
 LDLIBS=-lpickle -lmod -lcdb -lhttpc -lutf8
+USE_SSL=1
 #LDLIBS=${SUB:%=-l%}
 #LDLIBS+=-lmod
 
-.PHONY: all run test modules clean
+.PHONY: all run test modules clean tags
 
 ifeq ($(OS),Windows_NT)
 EXE=.exe
 DLL=dll
 PLATFORM=win
-#LDLIBS= -lWs2_32
+LDLIBS += -lWs2_32
 STRIP=rem
 else # Assume Unixen
 EXE=
 DLL=so
 PLATFORM=unix
 STRIP=strip
-STRIP=\#
+#STRIP=\#
 endif
 
 ifeq ($(USE_SSL),1)
 ifeq ($(PLATFORM),unix)
-#LDLIBS += -lssl
+LDLIBS += -lssl
 else
 endif
 endif
@@ -72,3 +73,7 @@ clean: .git
 		make -C "${MOD}/$$m" clean;\
 	done;
 	git clean -dffx
+
+tags:
+	ctags -R -f ./.git/tags .
+

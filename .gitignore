@@ -1,5 +1,7 @@
 *.a
+*.cdb
 *.dll
+*.html
 *.o
 *.so
 *~

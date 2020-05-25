@@ -16,4 +16,3 @@ int pickleModUtf8Register(pickle_mod_t *m) {
 	return pickle_mod_commands_register(m, cmds, NELEMS(cmds));
 }
 
-

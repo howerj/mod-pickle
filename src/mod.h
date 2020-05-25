@@ -31,6 +31,23 @@ typedef struct {
 	pickle_t *i;
 } pickle_mods_t;
 
+typedef struct { 
+	long allocs, 
+	     frees, 
+	     reallocs, 
+	     total; 
+} heap_t;
+
+typedef struct {
+	char *arg;   /* parsed argument */
+	int error,   /* turn error reporting on/off */
+	    index,   /* index into argument list */
+	    option,  /* parsed option */
+	    reset;   /* set to reset */
+	char *place; /* internal use: scanner position */
+	int  init;   /* internal use: initialized or not */
+} pickle_getopt_t;   /* getopt clone; with a few modifications */
+
 typedef int (*pickle_mod_register_t)(pickle_mod_t *m);
 
 void *pickle_mod_allocator(void *arena, void *ptr, const size_t oldsz, const size_t newsz);
@@ -48,7 +65,17 @@ pickle_mod_t *pickle_mod_new(pickle_t *i, pickle_mod_register_t rm);
 int pickle_mod_delete(pickle_t *i);
 
 pickle_mods_t *pickle_register_mods(pickle_t *i);
-void pickle_destory_mods(pickle_mods_t *ms);
+void pickle_destroy_mods(pickle_mods_t *ms);
+
+int pickle_getopt(pickle_getopt_t *opt, const int argc, char *const argv[], const char *fmt);
+
+#ifndef MIN
+#define MIN(X,Y) ((X) < (Y) ? (X) : (Y))
+#endif
+
+#ifndef MAX
+#define MAX(X,Y) ((X) > (Y) ? (X) : (Y))
+#endif
 
 #define ok(i, ...)    pickle_result_set(i, PICKLE_OK,    __VA_ARGS__)
 #define error(i, ...) pickle_result_set(i, PICKLE_ERROR, __VA_ARGS__)

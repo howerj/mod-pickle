@@ -114,11 +114,23 @@ static int evalFile(pickle_t *i, char *file) {
 	return r;
 }
 
+static int commandHeap(pickle_t *i, int argc, char **argv, void *pd) {
+	heap_t *h = pd;
+	if (argc != 2)
+		return error(i, "Invalid command %s", argv[0]);
+	if (!strcmp(argv[1], "frees"))         return ok(i, "%ld", h->frees);
+	if (!strcmp(argv[1], "allocations"))   return ok(i, "%ld", h->allocs);
+	if (!strcmp(argv[1], "total"))         return ok(i, "%ld", h->total);
+	if (!strcmp(argv[1], "reallocations")) return ok(i, "%ld", h->reallocs);
+	return error(i, "Invalid command %s", argv[0]);
+}
+
 int main(int argc, char **argv) {
+	heap_t h = { 0 };
 	pickle_t *i = NULL;
 	pickle_mods_t *ms = NULL;
-	if (pickle_tests(pickle_mod_allocator, NULL)   != PICKLE_OK) goto fail;
-	if (pickle_new(&i, pickle_mod_allocator, NULL) != PICKLE_OK) goto fail;
+	if (pickle_tests(pickle_mod_allocator, &h)   != PICKLE_OK) goto fail;
+	if (pickle_new(&i, pickle_mod_allocator, &h) != PICKLE_OK) goto fail;
 	if ((ms = pickle_register_mods(i)) == NULL) goto fail;
 	if (pickle_var_set_args(i, "argv", argc, argv)  != PICKLE_OK) goto fail;
 	if (pickle_command_register(i, "gets",   commandGets,   stdin)  != PICKLE_OK) goto fail;
@@ -127,6 +139,7 @@ int main(int argc, char **argv) {
 	if (pickle_command_register(i, "exit",   commandExit,   NULL)   != PICKLE_OK) goto fail;
 	if (pickle_command_register(i, "source", commandSource, NULL)   != PICKLE_OK) goto fail;
 	if (pickle_command_register(i, "clock",  commandClock,  NULL)   != PICKLE_OK) goto fail;
+	if (pickle_command_register(i, "heap",   commandHeap,   &h)   != PICKLE_OK) goto fail;
 	int r = 0;
 	for (int j = 1; j < argc; j++) {
 		r = evalFile(i, argv[j]);
@@ -137,8 +150,10 @@ int main(int argc, char **argv) {
 	}
 	if (argc == 1)
 		r = evalFile(i, NULL);
+	pickle_destroy_mods(ms);
 	return !!pickle_delete(i) || r < 0;
 fail:
+	(void)pickle_destroy_mods(ms);
 	(void)pickle_delete(i);
 	return 1;
 }

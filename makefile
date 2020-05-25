@@ -2,11 +2,11 @@ TARGET=pickle
 BUILD=bld
 MOD=mod
 BASE=src
-SUB=pickle httpc cdb shrink utf8
+SUB=pickle httpc cdb shrink utf8 q
 CFLAGS=-Wall -Wextra -std=c99 -g -O2 -fwrapv -I${MOD} -I${BUILD}/include -L${BUILD}/lib -I ${BASE} -L ${BASE} 
 AR=ar
 ARFLAGS=rcs
-LDLIBS=-lpickle -lmod -lcdb -lhttpc -lutf8
+LDLIBS=-lpickle -lmod -lcdb -lhttpc -lutf8 -lq
 USE_SSL=1
 #LDLIBS=${SUB:%=-l%}
 #LDLIBS+=-lmod

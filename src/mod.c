@@ -7,6 +7,8 @@
 extern int pickleModCdbRegister(pickle_mod_t *m);
 extern int pickleModUtf8Register(pickle_mod_t *m);
 extern int pickleModHttpcRegister(pickle_mod_t *m);
+extern int pickleModExprRegister(pickle_mod_t *m);
+extern int pickleModCRegister(pickle_mod_t *m);
 
 #ifdef _WIN32 /* Used to unfuck file mode for "Win"dows. Text mode is for losers. */
 #include <windows.h>
@@ -252,9 +254,11 @@ pickle_mods_t *pickle_register_mods(pickle_t *i) {
 	struct reg {
 		int (*reg)(pickle_mod_t *m);
 	} regs[] = {
-		{ pickleModCdbRegister, },
-		{ pickleModUtf8Register, },
+		{ pickleModCdbRegister,   },
+		{ pickleModUtf8Register,  },
 		{ pickleModHttpcRegister, },
+		{ pickleModExprRegister,  },
+		{ pickleModCRegister,     },
 	};
 	const size_t regsl = sizeof (regs) / sizeof(regs[0]);
 	pickle_mod_t *mods = pickle_allocate(i, regsl * sizeof *mods);

@@ -13,3 +13,6 @@
 [submodule "mod/utf8"]
 	path = mod/utf8
 	url = https://github.com/howerj/utf8
+[submodule "mod/q"]
+	path = mod/q
+	url = https://github.com/howerj/q

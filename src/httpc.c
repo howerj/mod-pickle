@@ -7,7 +7,8 @@
 #include <errno.h>
 
 /* TODO: Use the httpc module as a generic method of making TCP/IP
- * and SSL connections */
+ * and SSL connections. And NTP client would be super easy to make,
+ * if only the HTTP open/close routines supported UDP. */
 typedef struct {
 	size_t position, written;
 	FILE *output;
@@ -127,10 +128,20 @@ static int pickleCommandHttpc(pickle_t *i, int argc, char **argv, void *pd) {
 	httpc_options_t o = { .allocator = NULL };
 	if (setupOptions(m, &o) != PICKLE_OK)
 		return PICKLE_ERROR;
+	if (argc < 2)
+		return error(i, "Invalid command %s: version *OR* {get|put|delete|head} URL options...", argv[0]);
+	if (!strcmp("version", argv[1])) {
+		if (argc != 2)
+			return error(i, "Invalid subcommand %s", argv[1]);
+		unsigned long v = 0;
+		if (httpc_version(&v) < 0)
+			return error(i, "Invalid version %lu", v);
+		return ok(i, "%d %d %d", (int)((v >> 16) & 255),(int)((v >> 8) & 255),(int)((v >> 0) & 255));
+	}
 
 	assert(m);
 	if (argc < 3)
-		return error(i, "Invalid command %s: {get|put|delete|head} URL options...", argv[0]);
+		return error(i, "Invalid command %s: version *OR* {get|put|delete|head} URL options...", argv[0]);
 	if (!strcmp("get", argv[1]))
 		return pickleCommandHttpGet(i, argc - 1, argv + 1, pd);
 	if (!strcmp("put", argv[1]))

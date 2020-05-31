@@ -16,3 +16,6 @@
 [submodule "mod/q"]
 	path = mod/q
 	url = https://github.com/howerj/q
+[submodule "mod/sntp"]
+	path = mod/sntp
+	url = https://github.com/howerj/sntp

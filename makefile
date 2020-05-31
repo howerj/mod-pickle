@@ -23,6 +23,8 @@ else # Assume Unixen
 EXE=
 DLL=so
 PLATFORM=unix
+LDLIBS += -lsntp
+SUB+=sntp
 STRIP=strip
 #STRIP=\#
 endif

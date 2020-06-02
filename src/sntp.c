@@ -1,5 +1,7 @@
 #include "mod.h"
+#ifndef _WIN32
 #include "sntp.h"
+#endif
 #include <assert.h>
 
 static int pickleCommandSntp(pickle_t *i, int argc, char **argv, void *pd) {

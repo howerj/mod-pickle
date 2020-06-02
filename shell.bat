@@ -1,3 +1,3 @@
 @echo off
-make
+REM make
 pickle.exe mod\pickle\shell

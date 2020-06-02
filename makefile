@@ -18,7 +18,7 @@ EXE=.exe
 DLL=dll
 PLATFORM=win
 LDLIBS += -lWs2_32
-STRIP=rem
+STRIP=\#
 else # Assume Unixen
 EXE=
 DLL=so
@@ -36,7 +36,7 @@ else
 endif
 endif
 
-all: ${TARGET}
+all: ${TARGET}${EXE}
 
 test:
 	for m in ${SUB}; do\
